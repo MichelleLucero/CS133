@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -69,11 +70,82 @@ double maxeast(){
 }
 
 
+void compare_values(double east, double west){
+  if(east == west){
+    cout << "Equal" << endl;
+  }
+
+  if(east > west){
+    cout << "East" << endl;
+  }
+
+  if(west > east){
+    cout << "West" << endl;
+  }
+}
+
+
+void compare(string input_start_date, string input_end_date){
+  string date;
+  double eastSt, eastEl, westSt, westEl;
+  
+  ifstream fin("current_reservoir_levels.tsv");
+  if(fin.fail()){
+    cerr << "File cannot be opened for reading." << endl;
+    exit(1); // exit if failed to open the file
+  }
+  string junk; //new string variable
+  getline(fin,junk); //read one line from the file
+  while(fin >> date >> eastSt >> eastEl >> westSt >> westEl){
+    if(date >= input_start_date){
+     cout << date << " ";
+     compare_values(eastEl, westEl);
+      if(date == input_end_date)
+        break;
+    }
+  }
+  fin.close();
+}
+
+void reverse_order(string early,string later){
+  string date;
+  double eastSt, eastEl, westSt, westEl;
+  
+  ifstream fin("current_reservoir_levels.tsv");
+  if(fin.fail()){
+    cerr << "File cannot be opened for reading." << endl;
+    exit(1); // exit if failed to open the file
+  }
+  string junk; //new string variable
+  getline(fin,junk); //read one line from the file
+  string reverse[5];
+  int iter = 0;
+  while(fin >> date >> eastSt >> eastEl >> westSt >> westEl){
+    if(date >= early){
+      reverse[iter] = date + " " + to_string(westEl) + " ft";
+      iter++;
+      if(date == later)
+        break;
+    }
+  }
+  for(int f = iter; f >= 0; f--){
+      cout << reverse[f] << endl;
+    }
+  fin.close();
+}
+
+
+
 
 int main(){
   cout << "East storage levels on 01/11/2016 is  " << east_storage("01/11/2016") << endl;
   cout << "The min East storage is " << mineast() << endl;
-  cout << "The max East storage is " << maxeast() << endl;
+  cout << "The max East storage is " << maxeast() << endl; 
+  //cout << "Compare " << 
+  compare("09/13/2016","09/17/2016");
+  //<< endl;
+  cout << "Reverse Order" <<endl;
+  reverse_order("05/29/2016","06/02/2016");
   return 0;
 
 }
