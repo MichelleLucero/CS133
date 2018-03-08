@@ -1,19 +1,18 @@
-CXXFLAGS = -std=c++14
-LDFLAGS = -lm
+CXXFLAGS=-std=c++14
 
-main: main.o funcs.o
-	g++ $(LDFLAGS) $(CXXFLAGS) -o main main.o funcs.o
+main: main.o numbers.o
+	g++ -o main main.o numbers.o
 
-tests: tests.o funcs.o tests_funcs.o
-	g++ -o tests tests.o funcs.o tests_funcs.o
+tests: tests.o numbers.o
+	g++ -o tests tests.o numbers.o
 
-tests_funcs.o: tests_funcs.cpp
+tests.o: tests.cpp numbers.h
 
-tests.o: tests.cpp funcs.h
+main.o: main.cpp numbers.h
+	g++ $(CXXFLAGS) -c main.cpp
 
-main.o: main.cpp funcs.h
-
-funcs.o: funcs.cpp funcs.h
+numbers.o: numbers.cpp numbers.h
+	g++ $(CXXFLAGS) -c numbers.cpp
 
 clean:
-	rm -f main.o funcs.o tests.o
+	rm -f main.o numbers.o tests.o

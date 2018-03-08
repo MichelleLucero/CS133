@@ -1,5 +1,16 @@
+/*
+Author: Michelle Lucero
+Course: CSCI-136
+Instructor: Mike Zamansky
+Assignment: Lab5
+
+Identifying numbers that are prime or twin prime numbers through the use of multiple functions.
+*/
+
 #include <iostream>
 using namespace std;
+
+
 bool isDivisibleBy(int n, int d){
 
     bool status = true;
@@ -11,7 +22,7 @@ bool isDivisibleBy(int n, int d){
 
 bool isPrime(int n){
     bool status = true;
-    if(n==1){
+    if(n==1 || n==0){
         status = false;
     }
 
@@ -23,8 +34,6 @@ bool isPrime(int n){
 
         }
     }
-
-
     return status;
 }
 
@@ -42,9 +51,9 @@ int nextPrime(int n){
 }
 
 int countPrimes(int a, int b){
-     int count = 0;
-     for (int i = a; i <=b; i++){
-         if(isPrime(i)){
+    int count = 0;
+    for (int i = a; i <=b; i++){
+        if(isPrime(i)){ 
             count += 1;
          }
      }
@@ -52,45 +61,30 @@ int countPrimes(int a, int b){
  }
 
 bool isTwinPrime(int n){
-    int twinPrimeOne = n-2;
-    int twinPrimeTwo = n + 2;
-    bool status = true;
-
-    if(isPrime(n) == true){
-        if(isPrime(twinPrimeOne) || isPrime(twinPrimeTwo) ){
-            status = true;
-        }
-
-    }
-    else{
-        status = false;
-    }
-    return status;
+    if((isPrime(n-2)||isPrime(n+2))&&isPrime(n)){
+        return true;
+  }
+  return false;
 }
+
 
 int nextTwinPrime(int n){
-    int twinPrime = n + 2;
-    int nextPrime;
-    if (isPrime(n) == true){
-        if(isPrime(twinPrime)){
-            nextPrime = twinPrime;
-        }
+    int i = n+1;
+    while(!isTwinPrime(i)){
+        i++;
     }
-    return nextPrime;
+  return i;
 }
+
 
 int largestTwinPrime(int a, int b){
-    
+    int largestPrime = -1;
+    for (int i = a; i <=b; i++){
+        if(isTwinPrime(i)==true){
+            largestPrime = i;
+        }
+    }
+    return largestPrime;
 }
 
 
-
-int main(){
-
-    //cout<< boolalpha << isDivisibleBy(100,25);
-    //cout<< boolalpha << isPrime(14);
-    //cout<< nextPrime(13);
-    //cout<< countPrimes(1,10);
-    //cout<< boolalpha <<isTwinPrime(17); 
-    cout<< nextTwinPrime(17);
-}
