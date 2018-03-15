@@ -1,0 +1,8 @@
+Michelle Lucero
+CSCI 136 Lab 6
+Debugger for buggy.cpp
+
+e
+Debugger was utilized to look for mistakes that are hard to discern. Used break points to break down the code into bits. This helped look for problems in specific areas. For example in the last code I placed breaks to run the code lines one at a time until I could get the prober results.
+ 
+
