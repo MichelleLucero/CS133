@@ -1,13 +1,13 @@
-CXXFLAGS = -std=c++14
+ CXXFLAGS = -std=c++14
 LDFLAGS = -lm
 
 main: main.o funcs.o
 	g++ $(LDFLAGS) $(CXXFLAGS) -o main main.o funcs.o
 
-tests: tests.o funcs.o tests_funcs.o
-	g++ -o tests tests.o funcs.o tests_funcs.o
+tests: tests.o funcs.o 
+	g++ -o tests tests.o funcs.o 
 
-tests_funcs.o: tests_funcs.cpp
+
 
 tests.o: tests.cpp funcs.h
 
