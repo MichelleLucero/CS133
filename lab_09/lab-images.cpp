@@ -1,10 +1,10 @@
 /*
-  Author:   <---  Write your name here
-  Description:
-    The program reads a PGM image from the file "inImage.pgm",
-    and outputs a modified image to "outImage.pgm"
+Author: Michelle Lucero
+Course: CSCI136
+Instructor: Mike Zamansky
+Assignment: Lab 09
+Manipulating an image using arrays.
 */
-
 
 #include <iostream>
 #include <cassert>
@@ -54,9 +54,9 @@ void readImage(int image[MAX_H][MAX_W], int &height, int &width) {
 
 // Writes a PGM file
 // Need to provide the array data and the image dimensions
-void writeImage(int image[MAX_H][MAX_W], int height, int width) {
+void writeImage(int image[MAX_H][MAX_W], int height, int width, string file) {
 	ofstream ostr;
-	ostr.open("outImage.pgm");
+	ostr.open(file);
 	if (ostr.fail()) {
 		cout << "Unable to write file\n";
 		exit(1);
@@ -89,7 +89,7 @@ void invert(int image[MAX_H][MAX_W], int &h, int &w){
 			out[row][col] = 255 - image[row][col];
 		}
 	}
-	writeImage(out, h, w);
+	writeImage(out, h, w, "task-a.pgm");
 }
 
 void invert_half(int image[MAX_H][MAX_W], int &h, int &w){
@@ -104,7 +104,7 @@ void invert_half(int image[MAX_H][MAX_W], int &h, int &w){
 			}
 		}
 	}
-	writeImage(out, h, w);
+	writeImage(out, h, w, "task-b.pgm");
 }
 
 void box(int image[MAX_H][MAX_W], int &h, int &w){
@@ -119,7 +119,7 @@ void box(int image[MAX_H][MAX_W], int &h, int &w){
 			}
 		}
 	}
-	writeImage(out, h, w);
+	writeImage(out, h, w, "task-c.pgm");
 }
 
 void frame(int image[MAX_H][MAX_W], int &h, int &w){
@@ -141,37 +141,37 @@ void frame(int image[MAX_H][MAX_W], int &h, int &w){
 	for(int row = h/4; row < h-h/4; row++){
 		out[row][w-w/4] = 255;
 	}
-	writeImage(out, h, w);
+	writeImage(out, h, w, "task-d.pgm");
 }
 
 void scale(int image[MAX_H][MAX_W], int &h, int &w){
 	int out[MAX_H][MAX_W];
 	for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
-			out[row][col] = 255 - image[row][col];
+			out[row*2][col*2] = image[row][col];
+			out[row*2+1][col*2] = image[row][col];
+			out[row*2][col*2+1] = image[row][col];
+			out[row*2+1][col*2+1] = image[row][col];
 		}
 	}
-	writeImage(out, h, w);
+	writeImage(out, h*2, w*2, "task-e.pgm");
 }
 
-
-int main() {
-
-	int img[MAX_H][MAX_W];
-	int h, w;
-
-	readImage(img, h, w); // read it from the file "inImage.pgm"
-	// h and w were passed by reference and
-	// now contain the dimensions of the picture
-	// and the 2-dimesional array img contains the image data
-
-	// Now we can manipulate the image the way we like
-	// for example we copy its contents into a new array
-
-
-	frame(img, h, w);
-
-	// and save this new image to file "outImage.pgm"
-
-
+void pixelate(int image[MAX_H][MAX_W], int &h, int &w){
+	int out[MAX_H][MAX_W];
+	for(int row = 0; row < h; row+=2) {
+		for(int col = 0; col < w; col+=2) {
+			int sum = 0;
+			sum += image[row][col];
+			sum += image[row+1][col];
+			sum += image[row][col+1];
+			sum += image[row+1][col+1];
+			int avg = sum/4;
+			out[row][col] = avg;
+			out[row+1][col] = avg;
+			out[row][col+1] = avg;
+			out[row+1][col+1] = avg;
+		}
+	}
+	writeImage(out, h, w, "task-f.pgm");
 }
