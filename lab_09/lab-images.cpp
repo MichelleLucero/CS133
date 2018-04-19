@@ -1,6 +1,5 @@
 /*
   Author:   <---  Write your name here
-
   Description:
     The program reads a PGM image from the file "inImage.pgm",
     and outputs a modified image to "outImage.pgm"
@@ -82,41 +81,79 @@ void writeImage(int image[MAX_H][MAX_W], int height, int width) {
 	return;
 }
 
-void invert(int image[MAX_H][MAX_W], int height, int width) {
-	ofstream ostr;
-	ostr.open("outImage.pgm");
-	if (ostr.fail()) {
-		cout << "Unable to write file\n";
-		exit(1);
-	};
 
-	// print the header
-	ostr << "P2" << endl;
-	// width, height
-	ostr << width << ' ';
-	ostr << height << endl;
-	ostr << 255 << endl;
-
-	int col2;
-
-
-	for (int row = 0; row < height; row++) {
-		for (int col = 0; col < width; col++) {
-
-			assert(image[row][col] < 256);
-			assert(image[row][col] >= 0);
-
-			int col2 = 255 - col;
-
-
-		
-			ostr << image[row][col2] << ' ';
-			ostr << endl;
+void invert(int image[MAX_H][MAX_W], int &h, int &w){
+	int out[MAX_H][MAX_W];
+	for(int row = 0; row < h; row++) {
+		for(int col = 0; col < w; col++) {
+			out[row][col] = 255 - image[row][col];
 		}
 	}
-	ostr.close();
-	return;
+	writeImage(out, h, w);
 }
+
+void invert_half(int image[MAX_H][MAX_W], int &h, int &w){
+	int out[MAX_H][MAX_W];
+	for(int row = 0; row < h; row++) {
+		for(int col = 0; col < w; col++) {
+			if(col > w/2){
+				out[row][col] = 255 - image[row][col];
+			}
+			else{
+				out[row][col] = image[row][col];
+			}
+		}
+	}
+	writeImage(out, h, w);
+}
+
+void box(int image[MAX_H][MAX_W], int &h, int &w){
+	int out[MAX_H][MAX_W];
+	for(int row = 0; row < h; row++) {
+		for(int col = 0; col < w; col++) {
+			if(col > w/4 && col < w - w/4  && row > h/4 && row < h - h/4){
+				out[row][col] = 255;
+			}
+			else{
+				out[row][col] = image[row][col];
+			}
+		}
+	}
+	writeImage(out, h, w);
+}
+
+void frame(int image[MAX_H][MAX_W], int &h, int &w){
+	int out[MAX_H][MAX_W];
+	for(int row = 0; row < h; row++) {
+		for(int col = 0; col < w; col++) {
+			out[row][col] = image[row][col];
+		}
+	}
+	for(int col = w/4; col < w-w/4; col++){
+		out[h/4][col] = 255;
+	}
+	for(int col = w/4; col < w-w/4; col++){
+		out[h-h/4][col] = 255;
+	}
+	for(int row = h/4; row < h-h/4; row++){
+		out[row][w/4] = 255;
+	}
+	for(int row = h/4; row < h-h/4; row++){
+		out[row][w-w/4] = 255;
+	}
+	writeImage(out, h, w);
+}
+
+void scale(int image[MAX_H][MAX_W], int &h, int &w){
+	int out[MAX_H][MAX_W];
+	for(int row = 0; row < h; row++) {
+		for(int col = 0; col < w; col++) {
+			out[row][col] = 255 - image[row][col];
+		}
+	}
+	writeImage(out, h, w);
+}
+
 
 int main() {
 
@@ -130,18 +167,11 @@ int main() {
 
 	// Now we can manipulate the image the way we like
 	// for example we copy its contents into a new array
-	int out[MAX_H][MAX_W];
 
-	for(int row = 0; row < h; row++) {
-		for(int col = 0; col < w; col++) {
-			out[row][col] = img[row][col];
-		}
-	}
+
+	frame(img, h, w);
 
 	// and save this new image to file "outImage.pgm"
-	writeImage(out, h, w);
 
-	invert(out,w,h);
 
 }
-
