@@ -1,26 +1,28 @@
 #include<iostream>
 #include<string>
-//g++ -std=c++11 program.cpp
+#include "labstructs.h"
+
+
 using namespace std;
 
-struct Time {
-    int h;
-    int m;
-};
+// struct Time {
+//     int h;
+//     int m;
+// };
 
-enum Genre {ACTION, COMEDY, DRAMA, ROMANCE, THRILLER};
+// enum Genre {ACTION, COMEDY, DRAMA, ROMANCE, THRILLER};
 
 
-struct Movie {
-    string title;
-    Genre genre;     // only one genre per movie
-    int duration;    // in minutes
-};
+// struct Movie {
+//     string title;
+//     Genre genre;     // only one genre per movie
+//     int duration;    // in minutes
+// };
 
-struct TimeSlot {
-    Movie movie;     // what movie
-    Time startTime;  // when it starts
-};
+// struct TimeSlot {
+//     Movie movie;     // what movie
+//     Time startTime;  // when it starts
+// };
 
 string printTime(Time time){
     string t = to_string(time.h) + ":" + to_string(time.m);
@@ -139,19 +141,3 @@ bool timeOverlap(TimeSlot ts1, TimeSlot ts2){
 }
 
 
-int main(){
-
-    Movie movie1 = {"Back to the Future", COMEDY, 116};
-    Movie movie2 = {"The Last Airbender", ACTION, 90};
-    TimeSlot morning = {movie1,{9,15}};
-    TimeSlot evening = {movie2,{10,14}};
-
-    cout<< minutesSinceMidnight({10,20})<<endl;
-    cout<< minutesUntil( {16, 30}, {13, 40} )<<endl;
-    Time add = addMinutes({8, 10}, 75);
-    cout<< printTime(add)<<endl;
-    cout<<"Time Slot: " << TimeSlotString(morning)<<endl;
-
-    cout<< printTime(scheduleAfter(morning, movie2).startTime)<<endl; 
-    cout<< boolalpha << timeOverlap(evening,morning)<<endl; 
-}

@@ -1,28 +1,34 @@
-#include<iostream>
-//g++ -std=c++11 program.cpp
+#pragma once
+#include <string>
+#include "labstructs.h"
+
+using namespace std;
 
 struct Time {
     int h;
     int m;
 };
+enum Genre {ACTION, COMEDY, DRAMA, ROMANCE, THRILLER};
+
+struct Movie {
+    string title;
+    Genre genre;     // only one genre per movie
+    int duration;    // in minutes
+};
+
+struct TimeSlot {
+    Movie movie;     // what movie
+    Time startTime;  // when it starts
+};
 
 
 
-int minutesSinceMidnight(Time time){ {10,20}
-    Time midnight = {00,00};
-
-    Time now;
-    
-    now = {time[0],time[1]};
-
-    return now.h;
-
-
-
-}
-//int minutesUntil(Time earlier, Time later);
-
-int main(){
-
-    cout<< minutesSinceMidnight({10,20});
-}
+string printTime(Time time); //TASK A
+int minutesSinceMidnight(Time time); //TASK A 
+int minutesUntil(Time earlier, Time later); //TASK A
+Time addMinutes(Time time0, int min); //TASK B
+void printMovie(Movie mv); //TASK C
+void printTimeSlot(TimeSlot ts); //TASK C
+string TimeSlotString(TimeSlot ts); //TASK C
+TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie); //TASK D
+bool timeOverlap(TimeSlot ts1, TimeSlot ts2); //TASK E
