@@ -1,15 +1,10 @@
-#include<iostream>
-#include<cmath>
+#include <iostream>
+#include <math.h>
+#include "def.h"
 
 using namespace std;
 
 
-
-struct Coord3D {
-    double x;
-    double y;
-    double z;
-};
 
 //Task A
 double length(Coord3D *p){ // computes distance from the origin to the point P
@@ -39,17 +34,74 @@ Coord3D * fartherFromOrigin(Coord3D *p1, Coord3D *p2){
 }
 
 
+//Task C
+void move(Coord3D *ppos, Coord3D *pvel, double dt){
+  (*ppos).x += (*pvel).x * dt;
+  (*ppos).y += (*pvel).y * dt;
+  (*ppos).z += (*pvel).z * dt;  
+  
+  }
 
-int main() {
-    Coord3D pointP = {10, 20, 30};
-    cout << length(&pointP) << endl; // would print 37.4166
+//Task E
+Coord3D* createCoord3D(double x, double y, double z){
 
-    Coord3D pointQ = {-20, 21, -22};
+	Coord3D *vel = new Coord3D;
+	vel->x=x;
+	vel->y=y;
+	vel->z=z;
 
-    cout << "Address of P: " << &pointP << endl;
-    cout << "Address of Q: " << &pointQ << endl << endl;
-
-    Coord3D * ans = fartherFromOrigin(&pointP, &pointQ);
-   
-    cout << "ans = " << ans << endl; // So which point is farther?
+	return vel;
 }
+
+void deleteCoord3D(Coord3D *p){
+  delete p;
+}
+
+Particle* createParticle(double x, double y, double z,double vx, double vy, double vz){
+	Particle *cp=new Particle;
+	Coord3D p;
+	p.x = x;
+	p.y = y;
+	p.z = z;
+	cp-> pos = p;
+
+	Coord3D v;
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	cp->vel=v;
+
+	return cp;
+}
+
+void setVelocity(Particle *p, double vx, double vy, double vz){
+
+	Coord3D v;
+	v.x = vx;
+	v.y = vy;
+	v.z = vz;
+	p-> vel= v;
+
+}
+
+Coord3D getPosition(Particle *p){
+
+	return (*p).pos;
+
+}
+
+void move(Particle *p, double dt){
+
+	Coord3D cp;
+	cp.x = p-> pos.x+p ->vel.x * dt;
+	cp.y = p-> pos.y+p ->vel.y * dt;
+	cp.z = p-> pos.z+p ->vel.z * dt;
+	p-> pos = cp;
+
+}
+
+void deleteParticle(Particle *p){
+
+	delete p;
+}
+
